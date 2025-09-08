@@ -1,4 +1,4 @@
-import webpush from 'web-push';
+const webpush = require('web-push') as any;
 import { Notification } from '../models/Notification';
 import { User } from '../models/User';
 
@@ -40,9 +40,9 @@ export class NotificationService {
       await notification.save();
 
       // Send push notification if user has subscription
-      if (user.pushSubscription) {
+      if ((user as any).pushSubscription) {
         await webpush.sendNotification(
-          user.pushSubscription,
+          (user as any).pushSubscription,
           JSON.stringify(payload)
         );
       }
@@ -70,9 +70,9 @@ export class NotificationService {
           });
           await notification.save();
 
-          if (user.pushSubscription) {
+          if ((user as any).pushSubscription) {
             await webpush.sendNotification(
-              user.pushSubscription,
+              (user as any).pushSubscription,
               JSON.stringify(payload)
             );
           }

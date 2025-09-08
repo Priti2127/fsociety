@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 
-export const connectDB = async (): Promise<void> => {
+export const connectDB = async (): Promise<boolean> => {
   try {
     const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/task-manager';
     
     const conn = await mongoose.connect(mongoURI, {
       // Remove deprecated options for newer mongoose versions
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
     });
 
     console.log(`📦 MongoDB Connected: ${conn.connection.host}`);
@@ -23,9 +24,11 @@ export const connectDB = async (): Promise<void> => {
       console.log('✅ MongoDB reconnected');
     });
 
+    return true;
   } catch (error) {
     console.error('❌ Database connection failed:', error);
-    process.exit(1);
+    console.log('⚠️ Server will continue without database functionality');
+    return false;
   }
 };
 

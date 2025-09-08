@@ -218,7 +218,7 @@ MeetingSchema.virtual('duration').get(function() {
 MeetingSchema.pre('save', function(next) {
   if (this.meetingType === 'video' && !this.meetingLink) {
     // Generate Jitsi meeting link
-    const meetingId = this._id.toString().slice(-8);
+    const meetingId = (this._id as any).toString().slice(-8);
     this.meetingId = meetingId;
     this.meetingLink = `https://meet.jit.si/${meetingId}`;
   }

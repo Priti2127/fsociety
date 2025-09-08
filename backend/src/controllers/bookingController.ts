@@ -175,8 +175,8 @@ export const bookMeeting = asyncHandler(async (req: AuthRequest, res: Response) 
     attendees: [
       {
         id: bookingPage.userId._id,
-        email: bookingPage.userId.email,
-        name: bookingPage.userId.name,
+        email: (bookingPage.userId as any).email,
+        name: (bookingPage.userId as any).name,
         status: 'accepted'
       },
       {
@@ -275,7 +275,7 @@ async function checkAvailability(bookingPage: IBookingPage, startTime: string, e
 
 // Helper function to generate available slots
 async function generateAvailableSlots(bookingPage: IBookingPage, date: Date, duration: number) {
-  const slots = [];
+  const slots: any[] = [];
   const dayOfWeek = date.getDay();
   
   const dayAvailability = bookingPage.availability.find(a => a.dayOfWeek === dayOfWeek);

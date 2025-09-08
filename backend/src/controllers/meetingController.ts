@@ -366,11 +366,11 @@ export const generateMeetingLink = asyncHandler(async (req: AuthRequest, res: Re
   let meetingId = '';
 
   if (provider === 'jitsi') {
-    meetingId = meeting._id.toString().slice(-8);
+    meetingId = (meeting._id as any).toString().slice(-8);
     meetingLink = `https://meet.jit.si/${meetingId}`;
   } else if (provider === 'zoom') {
     // In a real implementation, you would call Zoom API here
-    meetingId = `zoom_${meeting._id.toString().slice(-8)}`;
+    meetingId = `zoom_${(meeting._id as any).toString().slice(-8)}`;
     meetingLink = `https://zoom.us/j/${meetingId}`;
   }
 

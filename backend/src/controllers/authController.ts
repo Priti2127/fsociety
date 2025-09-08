@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library';
 import { User, IUser } from '../models/User';
 import { asyncHandler } from '../middleware/errorHandler';
@@ -15,7 +15,7 @@ const generateToken = (userId: string): string => {
   return jwt.sign(
     { userId },
     secret,
-    { expiresIn: process.env.JWT_EXPIRE ?? '7d' }
+    { expiresIn: process.env.JWT_EXPIRE ?? '7d' } as any
   );
 };
 
@@ -27,7 +27,7 @@ const generateRefreshToken = (userId: string): string => {
   return jwt.sign(
     { userId }, 
     secret, 
-    { expiresIn: process.env.JWT_REFRESH_EXPIRE || '30d' }
+    { expiresIn: process.env.JWT_REFRESH_EXPIRE || '30d' } as any
   );
 };
 
